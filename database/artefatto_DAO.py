@@ -12,7 +12,7 @@ class ArtefattoDAO:
 
       # TODO
       @staticmethod
-      def leggi_artefatti_filtrati(id_museo,epoca):
+      def leggi_artefatti_filtrati(self, museo: str, epoca: str) -> list(Artefatto) | None:
           results = []
           cnx = None
           cursor = None
@@ -24,11 +24,11 @@ class ArtefattoDAO:
                   return None
               else:
                   cursor = cnx.cursor(dictionary=True)
-                  query = ("SELECT * FROM artefatto "
-                           "WHERE id_museo=COALESCE(%s, id_museo) "
-                           "AND epoca = COALESCE(%s, epoca)")
+                  query = """SELECT a.* 
+                             FROM artefatto a, museo m 
+                             WHERE id_museo=COALESCE(%s,m.nome) and epoca=COALESCE(%s,a.epoca) and a.id_museo=m.id"""
 
-                  cursor.execute(query,(id_museo,epoca))
+                  cursor.execute(query,(museo,epoca))
 
                   for row in cursor:
                       artefatto = Artefatto(row["id"], row["nome"], row["tipologia"], row["epoca"],row["id_museo"])
@@ -58,7 +58,7 @@ class ArtefattoDAO:
                   return None
               else:
                   cursor = cnx.cursor()
-                  query = """SELECT epoca FROM artefatto """
+                  query = """SELECT DISTINCT epoca FROM artefatto """
                   cursor.execute(query)
                   results = cursor.fetchall()
           except Exception as e:
@@ -70,5 +70,4 @@ class ArtefattoDAO:
             if cnx:
                 cnx.close()
 
-          return list(set(results))
-
+          return results

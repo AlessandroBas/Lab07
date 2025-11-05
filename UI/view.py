@@ -40,12 +40,12 @@ class View:
         self.filtro_museo = ft.Dropdown(label="museo",
                                      options=self.controller.popola_dropdown_museo(),
                                      width=200,
-                                     on_change=self.controller.handler_dropdown_change
+                                     on_change=self.controller.handler_dropdown_change_museo
                                      )
         self.filtro_epoca = ft.Dropdown(label="epoca",
                                         options=self.controller.popola_dropdown_epoca(),
                                         width=200,
-                                        on_change=self.controller.handler_dropdown_change
+                                        on_change=self.controller.handler_dropdown_change_epoca
                                         )
         self.row_filtri = ft.Row(
             controls=[self.filtro_museo, self.filtro_epoca],
@@ -56,7 +56,9 @@ class View:
         self.lista_artefatti = ft.ListView(
             expand=True,
             spacing=10,
-            padding=10,)
+            padding=10,
+            auto_scroll=True
+            )
 
         self.btn_artefatti = ft.ElevatedButton(
             "Mostra artefatti",

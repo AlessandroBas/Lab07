@@ -26,19 +26,21 @@ class Controller:
 
     def popola_dropdown_epoca(self):
         epoche = self._model.get_epoche()
-        opzioni = [ft.dropdown.Option(text=e, key=e) for e in epoche]
+        opzioni = [ft.dropdown.Option(e) for e in epoche]
         return opzioni
 
     # CALLBACKS DROPDOWN
     # TODO
-    def handler_dropdown_change(self, e):
-        self.selected_id =self._view.filtro_museo.value
-        musei = self._model.get_musei()
-        self.museo_selezionato = next((m for m in musei if str(m.id) == str(self.selected_id)), None)
+    def handler_dropdown_change_museo(self, e):
+        if self.museo_selezionato is None:
+            self.museo_selezionato =self._view.filtro_museo.value
+        pass
 
-        self.epoca_selezionata = self._view.filtro_epoca.value
-        if self.selected_id :
-            self.selected_id=str(int(self.selected_id)-14)
+    def handler_dropdown_change_epoca(self, e):
+        if self.epoca_selezionato is None:
+            self.epoca_selezionato = self._view.filtro_epoca.value
+        pass
+
         print(f"Museo selezionato: {self.museo_selezionato}")
         print(f"Epoca selezionata: {self.epoca_selezionata}")
 
