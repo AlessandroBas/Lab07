@@ -31,7 +31,6 @@ class MuseoDAO:
                 museo = Museo(row["id"], row["nome"], row["tipologia"])
                 results.append(museo)
 
-
         except Exception as e:
             print(f"Database error: {e}")
             return None
@@ -41,5 +40,4 @@ class MuseoDAO:
                 cursor.close()
             if cnx:
                 cnx.close()
-
         return results

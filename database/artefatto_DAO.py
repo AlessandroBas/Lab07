@@ -11,12 +11,10 @@ class ArtefattoDAO:
          pass
 
       # TODO
-      @staticmethod
-      def leggi_artefatti_filtrati(self, museo: str, epoca: str) -> list(Artefatto) | None:
+      def leggi_artefatti_filtrati(self, museo:str, epoca:str) -> list[Artefatto] | None:
           results = []
           cnx = None
           cursor = None
-
           try:
               cnx = ConnessioneDB.get_connection()
               if cnx is None:
@@ -24,12 +22,18 @@ class ArtefattoDAO:
                   return None
               else:
                   cursor = cnx.cursor(dictionary=True)
-                  query = """SELECT a.* 
-                             FROM artefatto a, museo m 
-                             WHERE id_museo=COALESCE(%s,m.nome) and epoca=COALESCE(%s,a.epoca) and a.id_museo=m.id"""
+                  if museo=="Nessun Filtro":
+                      museo=None
+                  if epoca=="Nessun Filtro":
+                      epoca=None
+
+                  query = """SELECT a.*
+                             FROM artefatto a, museo m
+                             WHERE m.nome=COALESCE(%s,m.nome) 
+                             AND a.epoca=COALESCE(%s,a.epoca) 
+                             AND a.id_museo=(m.id-14)"""
 
                   cursor.execute(query,(museo,epoca))
-
                   for row in cursor:
                       artefatto = Artefatto(row["id"], row["nome"], row["tipologia"], row["epoca"],row["id_museo"])
                       results.append(artefatto)
@@ -42,7 +46,6 @@ class ArtefattoDAO:
                   cursor.close()
               if cnx:
                   cnx.close()
-
           return results
 
       @staticmethod
@@ -69,5 +72,4 @@ class ArtefattoDAO:
                 cursor.close()
             if cnx:
                 cnx.close()
-
           return results

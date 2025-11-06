@@ -21,39 +21,37 @@ class Controller:
     # TODO
     def popola_dropdown_museo(self):
         musei = self._model.get_musei()
-        opzioni = [ft.dropdown.Option(text=m.nome, key=m.id) for m in musei]
-        return opzioni
+        return [ft.dropdown.Option("Nessun Filtro")] + [ft.dropdown.Option(m.nome) for m in musei]
 
     def popola_dropdown_epoca(self):
         epoche = self._model.get_epoche()
-        opzioni = [ft.dropdown.Option(e) for e in epoche]
-        return opzioni
+        return [ft.dropdown.Option("Nessun Filtro")] + [ft.dropdown.Option(e[0]) for e in epoche]
 
     # CALLBACKS DROPDOWN
     # TODO
     def handler_dropdown_change_museo(self, e):
         if self.museo_selezionato is None:
-            self.museo_selezionato =self._view.filtro_museo.value
-        pass
+            self.museo_selezionato = self._view.filtro_museo.value
+        else:
+         self.handler_btn_artefatti(None)
 
     def handler_dropdown_change_epoca(self, e):
-        if self.epoca_selezionato is None:
-            self.epoca_selezionato = self._view.filtro_epoca.value
-        pass
-
-        print(f"Museo selezionato: {self.museo_selezionato}")
-        print(f"Epoca selezionata: {self.epoca_selezionata}")
+        if self.epoca_selezionata is None:
+            self.epoca_selezionata = self._view.filtro_epoca.value
+        else:
+            self.handler_btn_artefatti(None)
 
     # AZIONE: MOSTRA ARTEFATTI
     # TODO
     def handler_btn_artefatti(self,e):
         self._view.lista_artefatti.clean()
-        artefatti=self._model.get_artefatti_filtrati(self.selected_id,self.epoca_selezionata)
-
-        if not artefatti:
-            self._view.lista_artefatti.controls.append(ft.Text("Nessun artefatto trovato."))
+        if self.museo_selezionato is not None and self.epoca_selezionata is not None:
+            artefatti=self._model.get_artefatti_filtrati(self.museo_selezionato,self.epoca_selezionata)
+            if not artefatti:
+                self._view.lista_artefatti.controls.append(ft.Text("Nessun artefatto trovato."))
+            else:
+                 for a in artefatti:
+                    self._view.lista_artefatti.controls.append(ft.Text(str(a)))
         else:
-            for a in artefatti:
-                self._view.lista_artefatti.controls.append(ft.Text(str(a)))
-            print(self._view.lista_artefatti)
+            self._view.show_alert("Devi inserire un Museo e/o un Epoca")
         self._view.update()

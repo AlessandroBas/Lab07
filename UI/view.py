@@ -40,16 +40,14 @@ class View:
         self.filtro_museo = ft.Dropdown(label="museo",
                                      options=self.controller.popola_dropdown_museo(),
                                      width=200,
-                                     on_change=self.controller.handler_dropdown_change_museo
-                                     )
+                                     on_change=self.controller.handler_dropdown_change_museo)
+
         self.filtro_epoca = ft.Dropdown(label="epoca",
                                         options=self.controller.popola_dropdown_epoca(),
                                         width=200,
-                                        on_change=self.controller.handler_dropdown_change_epoca
-                                        )
-        self.row_filtri = ft.Row(
-            controls=[self.filtro_museo, self.filtro_epoca],
-            alignment=ft.MainAxisAlignment.CENTER)
+                                        on_change=self.controller.handler_dropdown_change_epoca)
+
+        self.row_filtri = ft.Row(controls=[self.filtro_museo, self.filtro_epoca],alignment=ft.MainAxisAlignment.CENTER)
 
         # Sezione 3: Artefatti
         # TODO
@@ -57,12 +55,9 @@ class View:
             expand=True,
             spacing=10,
             padding=10,
-            auto_scroll=True
-            )
+            auto_scroll=True)
 
-        self.btn_artefatti = ft.ElevatedButton(
-            "Mostra artefatti",
-            on_click=self.controller.handler_btn_artefatti)
+        self.btn_artefatti = ft.ElevatedButton("Mostra artefatti",on_click=self.controller.handler_btn_artefatti)
 
         # --- Toggle Tema ---
         self.toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=self.cambia_tema)
