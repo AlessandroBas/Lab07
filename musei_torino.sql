@@ -11,6 +11,9 @@
 CREATE DATABASE IF NOT EXISTS `musei_torino` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `musei_torino`;
 
+DROP TABLE IF EXISTS 'artefatto'
+DROP TABLE IF EXISTS 'museo'
+
 -- Dump della struttura di tabella musei_torino.museo
 CREATE TABLE IF NOT EXISTS museo (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -19,7 +22,6 @@ CREATE TABLE IF NOT EXISTS museo (
 );
 
 -- Dump dei dati della tabella musei_torino.museo: ~14 rows (circa)
-DELETE FROM `museo`;
 
 /*!40000 ALTER TABLE `museo` DISABLE KEYS */;
 INSERT INTO `museo` (nome, tipologia) VALUES
@@ -50,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `artefatto` (
 );
 
 -- Dump dei dati della tabella musei_torino.artefatto: ~650 rows (circa)
-DELETE FROM `artefatto`;
+
 /*!40000 ALTER TABLE `artefatto` DISABLE KEYS */;
 INSERT INTO artefatto (nome, tipologia, epoca, id_museo) VALUES
 -- Museo Egizio (id_museo = 1) ~50 rows

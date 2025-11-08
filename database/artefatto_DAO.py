@@ -31,7 +31,7 @@ class ArtefattoDAO:
                              FROM artefatto a, museo m
                              WHERE m.nome=COALESCE(%s,m.nome) 
                              AND a.epoca=COALESCE(%s,a.epoca) 
-                             AND a.id_museo=(m.id-14)"""
+                             AND a.id_museo=m.id"""
 
                   cursor.execute(query,(museo,epoca))
                   for row in cursor:
